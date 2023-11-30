@@ -8,6 +8,7 @@ const test = (req, res) => {
 
 const loginUser = async (req, res) => {
     try {
+        console.log(123)
         const { email, password } = req.body;
         //user exist
         const user = await User.findOne({ email });
@@ -20,10 +21,7 @@ const loginUser = async (req, res) => {
         //check password
         const match = user.password.localeCompare(password)
         if (match != -1) {
-            jwt.sign({ email: user.email, id: user._id, name: user.name, img_source: user.img_source }, process.env.JWT_SECRET, {}, (err, token) => {
-                if (err) throw err;
-                res.cookie('token', token).json(user)
-            })
+            res.send(user)
         }
         else {
             res.json("Not match")
